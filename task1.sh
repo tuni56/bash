@@ -25,10 +25,10 @@ format_email() {
     name=$1
     surname=$2
     location_id=$3
-    email="${name:0:1}${surname,,}@abc"
+    email="${name:0:1}${surname,,}@abc.com"
     
     if grep -q "$email" "$output_file"; then
-        echo "${email}_${location_id}"
+        echo "${email%.*}${location_id}@abc.com"
     else
         echo "$email"
     fi
@@ -38,14 +38,15 @@ format_email() {
 {
     # Read the header and write it to the output file
     IFS=',' read -r -a headers
-    echo "${headers[*]}" > "$output_file"
+    echo "id,location_id,name,title,email,department" > "$output_file"
     
     # Process each line in the input file
-    while IFS=',' read -r id name surname email location_id; do
-        formatted_name="$(format_name "$name $surname")"
+    while IFS=',' read -r id location_id name title email department; do
+        formatted_name="$(format_name "$name")"
         formatted_email="$(format_email "$name" "$surname" "$location_id")"
-        echo "$id,$formatted_name,$formatted_email,$location_id"
+        echo "$id,$location_id,$formatted_name,$title,$formatted_email,$department"
     done < <(tail -n +2 "$input_file")
 } >> "$output_file"
 
 echo "New accounts file '$output_file' created successfully."
+
