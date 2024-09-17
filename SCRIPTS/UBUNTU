@@ -1,1 +1,13 @@
+# awk & sed
+AWK shows information by columns, for example:
+cat /etc/passwd | awk -F ":" '{print $1}'     : is the pattern that awk will look for and will show the fisrt column
+ps | awk '{print $4}'
 
+GREP is useful for search
+
+SED is useful for search and replace
+i.e.  touch topping.txt
+      nano topping.txt (You can find the file in this repo if you like, if not the case, type some pizza's topping such as pepperoni)
+      cat topping.txt
+      sed 's /Pineapple/Cheddar/' topping.txt  (it will replace Pineapple for Cheddar only in the screen. If yopu checked the file content you woudn't find any changes)
+      sed -i 's /Pineapple/Cheddar/' topping.txt (the replace will occur in the file)
